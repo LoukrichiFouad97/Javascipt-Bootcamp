@@ -1,10 +1,12 @@
 const btn = document.getElementById("btn");
+
 const moveX = (element, amount, delay) => {
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
 			const elemRight = btn.getBoundingClientRect().right;
 			const elemLeft = btn.getBoundingClientRect().left;
 			const boundry = document.body.clientWidth;
+
 			if (elemRight + amount > boundry) {
 				reject({ boundry, elemLeft, amount });
 			} else {
@@ -14,15 +16,32 @@ const moveX = (element, amount, delay) => {
 		}, delay);
 	});
 };
-moveX(btn, 200, 1000)
-	.then(() => moveX(btn, 300, 1000))
-	.then(() => moveX(btn, 200, 1000))
-	.then(() => moveX(btn, 300, 1000))
-	.catch(({ boundry, elemLeft, amount }) => {
-		console.log("screen width: ", boundry);
-		console.log("current width: ", elemLeft);
-		console.log("is too large: ", amount);
-	});
+
+async function callMove() {
+	try {
+		await moveX(btn, 200, 1000);
+		await moveX(btn, 300, 1000);
+		await moveX(btn, 200, 1000);
+		await moveX(btn, 300, 1000);
+		await moveX(btn, 300, 1000);
+		await moveX(btn, 300, 1000);
+	} catch (err) {
+		console.log("OOPs!", err);
+	}
+}
+callMove();
+
+// moveX(btn, 200, 1000)
+// 	.then(() => moveX(btn, 300, 1000))
+// 	.then(() => moveX(btn, 200, 1000))
+// 	.then(() => moveX(btn, 300, 1000))
+// 	.then(() => moveX(btn, 300, 1000))
+// 	.then(() => moveX(btn, 300, 1000))
+// 	.catch(({ boundry, elemLeft, amount }) => {
+// 		console.log("screen width: ", boundry);
+// 		console.log("current width: ", elemLeft);
+// 		console.log("is too large: ", amount);
+// 	});
 
 // const moveX = (element, amount, delay, onSuccess, onFail) => {
 // 	const elemRight = btn.getBoundingClientRect().right;
